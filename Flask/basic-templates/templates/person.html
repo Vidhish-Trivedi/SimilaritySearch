@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>This is the person page for {{name | capitalize}}</h1>  <!-- Using a filter with a param -->
+<!-- Can link static files using url_for(directory, filename) -->
+<a href="{{ url_for('static', filename='demo.jpg') }}">Here</a>
+{% endblock %}

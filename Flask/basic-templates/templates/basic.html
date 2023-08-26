@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic</title>
+</head>
+<body>
+    <h1>Welcome to this basic page.</h1>
+    <h3>Hi {{p_name}}</h3>
+    
+    <!-- <h2>Here is a sample photo:</h2>
+    <img src="../static/demo.jpg" alt="A sample photo"> -->
+    
+    <!-- <p>{{p_letters}}</p>
+    <p>{{p_letters[0]}}</p>
+    <p>{{p_letters[2:]}}</p>
+    <p>{{p_dictionary}}</p>
+    <p>{{p_dictionary['name']}}, {{p_dictionary['age']}}</p> -->
+    
+    <ul>
+    {% for num in nums %}
+    {% if num%2 == 0 %}
+        <li>Even: {{num}}</li>
+    <!-- elif also works -->
+    {% else %}
+        <li>Odd: {{num}}</li>
+    {% endif %}
+    {% endfor %}
+    </ul>
+
+</body>
+</html>

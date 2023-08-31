@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="mt-4 p-5 bg-dark text-white rounded">
+    <h1>Welcome to the sign up page</h1>
+    <p>Fill out this form</p>
+    <form action="{{url_for('thankyou')}}">
+        <label for="first">First Name: </label>
+        <input type="text" name="first">
+        <label for="last">Last Name: </label>
+        <input type="text" name="last">
+        <input type="submit" value="Submit Form">
+    </form>
+</div>
+
+{% endblock %}

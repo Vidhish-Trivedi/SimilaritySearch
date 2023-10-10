@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="mt-4 p-5 bg-dark text-white rounded">
+    <h1>Welcome to the sign up page</h1>
+    <p>Fill out this form</p>
+   
+    <form method="post" enctype="multipart/form-data">
+        <input type=file name=file>
+        <label for="file_name">File Name:</label>
+        <input type="text" name="file_name">
+        <input type=submit value=Upload>
+    </form>
+
+</div>
+    <div class="container">
+        {% if file_url %}
+            <div class="mt-5">
+                <img src="{{ file_url }}" style="width: 400px;">
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

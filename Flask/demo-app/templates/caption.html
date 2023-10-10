@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="mt-4 p-5 bg-dark text-white rounded">
+    <h1>Thank you for uploading image: {{ filename }}</h1>
+    <img src="{{ image_src }}" alt="uploaded image" style="height:200px;width:200px;">
+    <p>The caption for your image is: {{caption}}</p>
+
+    <form method="post" enctype="multipart/form-data">
+        <input type="submit" value="Search">
+    </form>
+</div>
+
+{% endblock %}

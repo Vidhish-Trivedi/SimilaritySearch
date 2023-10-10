@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="mt-4 p-5 bg-dark text-white rounded">
+    <!-- <h1>Thank you for uploading image: {{ filename }}</h1> -->
+    <h1>Results</h1>
+    <p>Top {{num_img}} results</p>
+    <p>{{img_list[0]}}</p>
+    {% for i in range(0, num_img) %}
+    <img src="{{ url_for('static', filename=img_list[i]) }}" alt="uploaded image" style="height:200px;width:200px;">
+    <p>id: {{id_list[i]}}</p>
+    <p>caption: {{caption_list[i]}}</p>
+    <hr>
+    {% endfor %}
+</div>
+
+{% endblock %}

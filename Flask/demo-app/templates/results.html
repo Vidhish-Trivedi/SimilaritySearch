@@ -10,8 +10,9 @@
         <div class="card text-black" style="width: 18rem;margin-left:2rem;">
             <img src="{{ url_for('static', filename=img_list[i]) }}" alt="uploaded image" class="card-img-top">
             <div class="card-body">
-                <h5 class="card-title">id: {{id_list[i]}}</h5>
-                <p class="card-text">caption: {{caption_list[i]}}</p>
+                <h5 class="card-title">ID: {{id_list[i]}}</h5>
+                <p class="card-text">Caption: {{caption_list[i]}}</p>
+                <p class="card-text">Similarity score: {{similarity_scores[i]}}</p>
                 <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
             </div>
         </div>

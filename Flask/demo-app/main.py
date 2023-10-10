@@ -43,7 +43,7 @@ ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = "uploads"
-IMG_DIR = "search/sets/nuimages/samples"
+# upsert_data = [(str(i), [float(e) for e in embeddings[i]], {"path": captions[i][1], "sentence": sentences[i]}) for i in range(0, len(embeddings))]
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -85,9 +85,11 @@ def get_caption(filename):
         ids = []
         paths = []
         res_captions = []
+        similarity_scores = []
 
         for e in res['matches']:
             ids.append(e['id'])
+            similarity_scores.append(e['score'])
             paths.append(e['metadata']["path"].split("/")[-1])
             res_captions.append(e['metadata']["sentence"])
 
@@ -96,15 +98,15 @@ def get_caption(filename):
         # res_captions contains actual captions in pinecone of similar matches.
         num_img = len(ids)
 
-        return render_template('results.html', img_list=paths, id_list=ids, caption_list=res_captions, num_img=num_img)
+        return render_template('results.html', img_list=paths, id_list=ids, caption_list=res_captions, similarity_scores=similarity_scores, num_img=num_img)
         
     print(url_for('uploaded_file', filename=filename))
     return render_template("caption.html", caption=caption, image_src=url_for('uploaded_file', filename=filename))
 
 
-@app.route('/results/<img_list>/<id_list>/<caption_list>/<num_img>', methods=["POST"])
-def get_results(img_list, id_list, caption_list, num_img):
-    return render_template("results.html", img_list=img_list, id_list=id_list, caption_list=caption_list, num_img=num_img)
+@app.route('/results/<img_list>/<id_list>/<caption_list>/<similarity_scores>/<num_img>', methods=["POST"])
+def get_results(img_list, id_list, caption_list, similarity_scores, num_img):
+    return render_template("results.html", img_list=img_list, id_list=id_list, caption_list=caption_list, similarity_scores=similarity_scores, num_img=num_img)
 
 
 @app.route('/uploads/<filename>')

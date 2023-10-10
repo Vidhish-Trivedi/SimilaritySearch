@@ -2,16 +2,21 @@
 {% block content %}
 
 <div class="mt-4 p-5 bg-dark text-white rounded">
-    <!-- <h1>Thank you for uploading image: {{ filename }}</h1> -->
     <h1>Results</h1>
-    <p>Top {{num_img}} results</p>
-    <p>{{img_list[0]}}</p>
-    {% for i in range(0, num_img) %}
-    <img src="{{ url_for('static', filename=img_list[i]) }}" alt="uploaded image" style="height:200px;width:200px;">
-    <p>id: {{id_list[i]}}</p>
-    <p>caption: {{caption_list[i]}}</p>
-    <hr>
-    {% endfor %}
+    <h3>Top {{num_img}} results</h3>
+    
+    <div class="card-group">
+        {% for i in range(0, num_img) %}
+        <div class="card text-black" style="width: 18rem;margin-left:2rem;">
+            <img src="{{ url_for('static', filename=img_list[i]) }}" alt="uploaded image" class="card-img-top">
+            <div class="card-body">
+                <h5 class="card-title">id: {{id_list[i]}}</h5>
+                <p class="card-text">caption: {{caption_list[i]}}</p>
+                <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 </div>
 
 {% endblock %}

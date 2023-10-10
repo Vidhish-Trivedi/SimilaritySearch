@@ -39,8 +39,6 @@ async def setup():
 global IS_SETUP, index
 IS_SETUP = False
 
-# C:\Users\HP\Desktop\WSL\Data\data\sets\nuimages\samples
-# UPLOAD_FOLDER = '/path/to/the/uploads'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 app = Flask(__name__)
@@ -59,22 +57,19 @@ async def index():
         IS_SETUP = True
 
     if request.method == 'POST':
-        # print(request.form.get("file_name"))
-        # check if the post request has the file part
+       
         if 'file' not in request.files:
             flash('No file part')
             return redirect(request.url)
         file = request.files['file']
-        # if user does not select file, browser also
-        # submit an empty part without filename
+       
         if file.filename == '':
             flash('No selected file')
             return redirect(request.url)
         if file and allowed_file(file.filename):
-            # filename = secure_filename(file.filename)
             filename = secure_filename(request.form.get("file_name") + "." + file.filename.split(".")[-1])
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            # return redirect(url_for('uploaded_file', filename=filename))
+            
             return redirect(url_for('get_caption', filename=filename))
     return render_template("index.html")
 
@@ -83,7 +78,6 @@ async def index():
 def get_caption(filename):
     caption = show_n_generate(os.path.join(app.config['UPLOAD_FOLDER'], filename), greedy=False)
     if request.method == 'POST':
-        print("ok post")
         query_embedding = model.encode(caption)
 
         query_vector = [float(e) for e in query_embedding]
@@ -97,41 +91,10 @@ def get_caption(filename):
             paths.append(e['metadata']["path"].split("/")[-1])
             res_captions.append(e['metadata']["sentence"])
 
-        # img_path_list = []
-        # ids contains ids of closest matches.
-        # for _ in range(0, 5):
-        #     print(ids[_], paths[_], res_captions[_])
-            # 5194 n013-2018-08-17-12-00-39+0800__CAM_FRONT__1534479305912407.jpg a car with a lot of luggage parked on the curb
-
-            # img_data_path = IMG_DIR
-            # img_data_path = ""
-            # if "FRONT" in paths[_]:
-            #     if "LEFT" in paths[_]:
-            #         img_data_path += "CAM_FRONT_LEFT"
-            #     elif "RIGHT" in paths[_]:
-            #         img_data_path += "CAM_FRONT_RIGHT"
-            #     else:
-            #         img_data_path += "CAM_FRONT"
-            
-            # elif "BACK" in paths[_]:
-            #     if "LEFT" in paths[_]:
-            #         img_data_path += "CAM_BACK_LEFT"
-            #     elif "RIGHT" in paths[_]:
-            #         img_data_path += "CAM_BACK_RIGHT"
-            #     else:
-            #         img_data_path += "CAM_BACK"
-            
-            # img_data_path += "/" + paths[_]
-            # img_path_list.append(img_data_path)
-
+        # paths contains filenames of images.
+        # ids contains id in pinecone of similar matches.
+        # res_captions contains actual captions in pinecone of similar matches.
         num_img = len(ids)
-        # print("=============> ", num_img)
-
-        # resp_list = []
-        # for p in img_path_list:
-        #     resp_list.append(url_for('searched_files', img_path=p))
-        
-        # print("=============> ", resp_list[0])
 
         return render_template('results.html', img_list=paths, id_list=ids, caption_list=res_captions, num_img=num_img)
         
@@ -153,9 +116,6 @@ def uploaded_file(filename):
 def searched_files(filename):
     return send_from_directory("search/sets/nuimages/samples",
                                filename)
-    # print("/".join(img_path.split("/")[:-1]))
-    # print(img_path.split("/")[-1])
-    # return send_from_directory("/".join(img_path.split("/")[:-1]), img_path.split("/")[-1])
 
 
 if __name__ == "__main__":
